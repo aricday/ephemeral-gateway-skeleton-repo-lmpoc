@@ -5,7 +5,7 @@
 version: '3.4'
 services:
   gateway-dev:
-    hostname: gateway_cicd.day.apim.ca.com
+    hostname: gw-test.day.apim.ca.com
     image: caapim/gateway:9.4.00
     ports:
     - "8081:8080"
@@ -17,7 +17,7 @@ services:
     #- ./AWS-SK/src/main/gateway/config/global-env.properties:/opt/SecureSpan/Gateway/node/default/etc/bootstrap/env/global-env.properties
     - ./Enterprise/src/main/gateway/config/global-env.properties:/opt/SecureSpan/Gateway/node/default/etc/bootstrap/env/global-env.properties
     - ./Enterprise/src/main/gateway/config/privateKeys:/opt/SecureSpan/Gateway/node/default/etc/bootstrap/env/config/privateKeys
-    #- ./Enterprise/src/main/gateway/config/certificates:/opt/SecureSpan/Gateway/node/default/etc/bootstrap/certificates
+    # - ./Enterprise/src/main/gateway/config/certificates:/opt/SecureSpan/Gateway/node/default/etc/bootstrap/certificates
     secrets:
     - source: license
       target: /opt/SecureSpan/Gateway/node/default/etc/bootstrap/license/license.xml
@@ -26,7 +26,7 @@ services:
       SSG_ADMIN_USERNAME: "admin"
       SSG_ADMIN_PASSWORD: "7layer"
       ENV.PRIVATE_KEY.ssl: '{ "keystore": "Generic", "algorithm": "RSA", "keyPassword": "7layer" }'
-      ENV.CERTIFICATE.gateway: '{
+      ENV.CERTIFICATE.gw_test.client: '{
                       "verifyHostname" : false,
                       "trustedForSsl" : true,
                       "trustedAsSamlAttestingEntity" : true,
@@ -36,23 +36,32 @@ services:
                       "trustedForSigningServerCerts" : true,
                       "trustedAsSamlIssuer" : true
                       }'
-      ENV.CERTIFICATE_FILE.gateway.pem: |-
+      ENV.CERTIFICATE_FILE.gw_test.client.pem: |-
                         Bag Attributes
                             friendlyName: ssl
-                            localKeyID: F5 E0 AA F5 5E 37 CE 56 19 6B 88 70 EB 06 C7 F7 01 9A 4C 9B 
-                        subject=/CN=gateway_cicd.day.apim.ca.com
-                        issuer=/CN=gateway_cicd.day.apim.ca.com
+                            localKeyID: 1D 66 77 20 0F C1 32 AC 7A 26 64 CF F9 0E 00 96 28 5C B0 BF 
+                        subject=/C=us/ST=MN/L=Minneapolis/CN=gw-test.day.apim.ca.com/emailAddress=aric.day@broadcom.com
+                        issuer=/C=us/ST=MN/L=Minneapolis/CN=gw-test.day.apim.ca.com/emailAddress=aric.day@broadcom.com
                         -----BEGIN CERTIFICATE-----
-                        MIIDFTCCAf2gAwIBAgIJAPz1pWckwb6YMA0GCSqGSIb3DQEBDAUAMCgxJjAkBgNV
-                        BAMTHWVrc2d3LmVrcy5sYXllcjcuYnJvYWRjb20uY29tMB4XDTE5MDkyNDE4NDgw
-                        NFoXDTI5MDkyMTE4NDgwNFowKDEmMCQGA1UEAxMdZWtzZ3cuZWtzLmxheWVyNy5i
-                        cm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCidr1U
-                        pHI3+0UM7SkBInmXlfC1Y+HQcc8EQWM5P528tAeiEa4+GrpkiISMGDJ4kotd5T9S
-                        9D4XXgGpS2Tj+P2HoQLb4rPmr3YgtZWJbDFRSd96eEMNGNrRS+AP3eyUFE1hGdU/
-                        U7DYm+945cwxF4RWtHh0sSLjJZfGJ1NvRvGBysUlum2Z27NHR8pKepvvjbmj+erx
-                        ReimWvxQanGnlwFjCO3DZIKE4FRCbvJlJjfVDc9mTg2bfy1ztqSJiNgXQXBIz04K
-                        8OsntEmTdlc2QkIxWtoB0b5N0VXfQ9J9eJ2ItYwOfeFte2eyLys/sL9SYCdR4ItI
-                        Example ---- Example ---- Example ----- Example  ------  Example
+                        MIIDbDCCAlQCCQCd+I9eEtCQMDANBgkqhkiG9w0BAQsFADB4MQswCQYDVQQGEwJ1
+                        czELMAkGA1UECAwCTU4xFDASBgNVBAcMC01pbm5lYXBvbGlzMSAwHgYDVQQDDBdn
+                        dy10ZXN0LmRheS5hcGltLmNhLmNvbTEkMCIGCSqGSIb3DQEJARYVYXJpYy5kYXlA
+                        YnJvYWRjb20uY29tMB4XDTE5MTAzMDE0Mjg1MFoXDTI5MTAyNzE0Mjg1MFoweDEL
+                        MAkGA1UEBhMCdXMxCzAJBgNVBAgMAk1OMRQwEgYDVQQHDAtNaW5uZWFwb2xpczEg
+                        MB4GA1UEAwwXZ3ctdGVzdC5kYXkuYXBpbS5jYS5jb20xJDAiBgkqhkiG9w0BCQEW
+                        FWFyaWMuZGF5QGJyb2FkY29tLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+                        AQoCggEBALYb15y9iHV2M0jtc5cRO6zE3vQC7efFkgZ9zZM9qzhGyZXPcUITRgzC
+                        N820bNxTAU9r7xbInSUq4x+ajJMHid6V3Gmi0ZzETyH1gdhrNS9OKRrnhNztqWc0
+                        mqi/kNCVpv8QjxTKTWF5I0+UXI3+DQJmISs7Rgs8VHljBkAHVBYu8CIav5bx63KN
+                        UQWmH7yQxUFIvl3IaQauaD68QfUXao+J6W46jhYzk9x3/pHUT5mw40SqqqcTXHWw
+                        FQx9ZGsZ3tIvUFxX80POgzKfpT0MQZSW4EL+rVqn1zoYftJelk8tRqYqf4RlxAG2
+                        YrreGcfB/iUhzlrffzcs9MsTr+xywfcCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEA
+                        II2LkQs+/hNcFciMWxyJ1EyIPAG59uHr4DDX/mfwzuw7//2HCcLFRhCmM+AwSx6O
+                        P7eHhWB4ktuwBnwOvvRFZSquXKZJNLFC7RroPRgcmjJEj6tGii3kumiOoHcp3CFD
+                        ob83f4OIfbnvLLNpxXLgGefQUrW/j0AYyuN7wojuPJe7cBbaHqlNb1XstJVGfxCq
+                        nkSJB8gIokVdBwF9oIj1NmZfw/KdRBxst9hVjaNdE4YUUOwrHdT7Kyt5aargzqku
+                        ZuBqjCuyOg8etrBdwCOExo/AuPs1exBL8Kw9wrCPMIVzGem/SiUs/d4oUi7KAuXg
+                        /aZpuw1xK0q2ZwGKUmFHRQ==
                         -----END CERTIFICATE-----
 
 secrets:
