@@ -5,7 +5,7 @@
 version: '3.4'
 services:
   gateway-dev:
-    hostname: gateway.<yourDomain>
+    hostname: gateway_cicd.day.apim.ca.com
     image: caapim/gateway:9.4.00
     ports:
     - "8081:8080"
@@ -26,7 +26,7 @@ services:
       SSG_ADMIN_USERNAME: "admin"
       SSG_ADMIN_PASSWORD: "7layer"
       ENV.PRIVATE_KEY.ssl: '{ "keystore": "Generic", "algorithm": "RSA", "keyPassword": "7layer" }'
-      ENV.CERTIFICATE.<yourCertificate>: '{
+      ENV.CERTIFICATE.gateway: '{
                       "verifyHostname" : false,
                       "trustedForSsl" : true,
                       "trustedAsSamlAttestingEntity" : true,
@@ -36,12 +36,12 @@ services:
                       "trustedForSigningServerCerts" : true,
                       "trustedAsSamlIssuer" : true
                       }'
-      ENV.CERTIFICATE_FILE.<yourCertFile>.pem: |-
+      ENV.CERTIFICATE_FILE.gateway.pem: |-
                         Bag Attributes
                             friendlyName: ssl
                             localKeyID: F5 E0 AA F5 5E 37 CE 56 19 6B 88 70 EB 06 C7 F7 01 9A 4C 9B 
-                        subject=/CN=gateway.<yourDomain>
-                        issuer=/CN=gateway.<yourDomain>
+                        subject=/CN=gateway_cicd.day.apim.ca.com
+                        issuer=/CN=gateway_cicd.day.apim.ca.com
                         -----BEGIN CERTIFICATE-----
                         MIIDFTCCAf2gAwIBAgIJAPz1pWckwb6YMA0GCSqGSIb3DQEBDAUAMCgxJjAkBgNV
                         BAMTHWVrc2d3LmVrcy5sYXllcjcuYnJvYWRjb20uY29tMB4XDTE5MDkyNDE4NDgw
