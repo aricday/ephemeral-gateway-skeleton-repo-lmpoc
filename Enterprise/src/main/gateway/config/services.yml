@@ -188,16 +188,6 @@ Enterprise/Proxies/test:
   - "PUT"
   properties: {}
   wssProcessingEnabled: false
-Enterprise/Service-1:
-  url: "/service1"
-  policy: "Enterprise/Service-1"
-  httpMethods:
-  - "DELETE"
-  - "POST"
-  - "GET"
-  - "PUT"
-  properties: {}
-  wssProcessingEnabled: false
 Enterprise/Test_Service:
   url: "/service1"
   policy: "Enterprise/Test_Service"
